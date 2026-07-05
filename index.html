@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timaxo Costatopa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #1a1a1a;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .main-container {
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .title {
+            color: #ffffff;
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            text-shadow: 0 4px 15px rgba(255, 0, 0, 0.8);
+            display: block;
+        }
+
+        .back-btn {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: #ffffff;
+            background: rgba(150, 0, 0, 0.5);
+            border: 1px solid rgba(255, 0, 0, 0.8);
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 20px;
+            align-self: flex-start;
+        }
+
+        .menu-wrapper { width: 100%; }
+        .hidden-panel { display: none; }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            margin: 15px 0;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 2px;
+            background: rgba(150, 0, 0, 0.75);
+            border: 2px solid rgba(255, 0, 0, 0.95);
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+            text-transform: uppercase;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover { background: rgba(255, 0, 0, 0.95); transform: scale(1.02); }
+
+        .contact-text {
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            direction: rtl;
+        }
+
+        .user-text-box {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            margin: 15px 0;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #ffffff;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(204, 35, 102, 0.5);
+            text-align: center;
+            pointer-events: none; 
+            user-select: text; 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <button id="back-button" class="back-btn hidden-panel" onclick="goBack()">BACK</button>
+        <h1 id="main-title" class="title">Timaxo Costatopa</h1>
+
+        <div id="start-section" class="menu-wrapper">
+            <button class="btn" onclick="switchPanels('start-section', 'device-section')">START</button>
+        </div>
+
+        <div id="device-section" class="menu-wrapper hidden-panel">
+            <button class="btn" onclick="switchPanels('device-section', 'iphone-section')">iPhone</button>
+            <button class="btn" onclick="switchPanels('device-section', 'android-section')">Android</button>
+        </div>
+
+        <div id="iphone-section" class="menu-wrapper hidden-panel">
+            <button class="btn" onclick="switchPanels('iphone-section', 'iphone-panel-options')">PANEL</button>
+            <button class="btn" onclick="switchPanels('iphone-section', 'iphone-zeit-options')">ZEIT</button>
+        </div>
+
+        <div id="iphone-panel-options" class="menu-wrapper hidden-panel">
+            <button class="btn" onclick="showContactSummary()">FLORIDE</button>
+        </div>
+
+        <div id="iphone-zeit-options" class="menu-wrapper hidden-panel">
+            <button class="btn" onclick="showContactSummary()">PROXY</button>
+            <button class="btn" onclick="showContactSummary()">100% HEADSHOT</button>
+        </div>
+
+        <div id="android-section" class="menu-wrapper hidden-panel">
+            <button class="btn" onclick="switchPanels('android-section', 'android-panel-options')">PANEL</button>
+            <button class="btn" onclick="switchPanels('android-section', 'android-zeit-options')">ZEIT</button>
+        </div>
+
+        <div id="android-panel-options" class="menu-wrapper hidden-panel">
+            <button class="btn" onclick="showContactSummary()">BATU TEAM</button>
+            <button class="btn" onclick="showContactSummary()">DRIP CLEAN</button>
+        </div>
+
+        <div id="android-zeit-options" class="menu-wrapper hidden-panel">
+            <button class="btn" onclick="showContactSummary()">VALI MOD</button>
+            <button class="btn" onclick="showContactSummary()">SCRIPT</button>
+        </div>
+
+        <div id="contact-section" class="menu-wrapper hidden-panel">
+            <p class="contact-text">:للمزيد من المعلومات أو للطلب يرجى التواصل</p>
+            <div class="user-text-box">@timaxo_zwita_vip</div>
+            <div class="user-text-box">@costatopa_vip</div>
+        </div>
+    </div>
+
+    <script>
+        let historyStack = [];
+
+        function switchPanels(hideId, showId) {
+            document.getElementById(hideId).classList.add("hidden-panel");
+            historyStack.push(hideId);
+            document.getElementById(showId).classList.remove("hidden-panel");
+            if (showId !== 'start-section') {
+                document.getElementById('back-button').classList.remove("hidden-panel");
+            }
+        }
+
+        function goBack() {
+            if (historyStack.length > 0) {
+                document.getElementById('main-title').style.display = 'block';
+                const currentPanel = document.querySelector('.menu-wrapper:not(.hidden-panel)');
+                if (currentPanel) {
+                    currentPanel.classList.add("hidden-panel");
+                }
+                const previousPanelId = historyStack.pop();
+                document.getElementById(previousPanelId).classList.remove("hidden-panel");
+                if (previousPanelId === 'start-section') {
+                    document.getElementById('back-button').classList.add("hidden-panel");
+                }
+            }
+        }
+
+        function showContactSummary() {
+            document.querySelectorAll('.menu-wrapper').forEach(p => p.classList.add("hidden-panel"));
+            document.getElementById('back-button').classList.add("hidden-panel");
+            document.getElementById('main-title').style.display = 'none';
+            document.getElementById('contact-section').classList.remove("hidden-panel");
+        }
+    </script>
+</body>
+</html>
